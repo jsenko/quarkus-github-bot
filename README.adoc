@@ -1,14 +1,10 @@
-= Quarkus GitHub Bot
-
-> A Quarkus-powered GitHub App to simplify issues and pull requests management in the Quarkus project.
-
-++++
-<p align="center"><img src="https://design.jboss.org/quarkus/bot/final/images/quarkusbot_full.svg" width="128" height="128" /></p>
-++++
+= Apicurio GitHub Bot
 
 == Introduction
 
 This GitHub App is based on the https://github.com/quarkiverse/quarkus-github-app[Quarkus GitHub App framework].
+
+It was forked from https://github.com/quarkusio/quarkus-github-bot[Quarkus GitHub Bot], and modified for the purposes of the Apicurio projects.
 
 It can be run as a native executable.
 

@@ -13,4 +13,7 @@ public final class GHPullRequests {
         }
         return false;
     }
+
+    private GHPullRequests() {
+    }
 }
