@@ -1,0 +1,29 @@
+---
+labels:
+  areaLabelColor: FBCA04
+  triageLabelColor: D93F0B
+triage:
+  needsTriageLabel: triage/needs-triage
+  defaultNotify:
+    - user_1
+    - user_2
+  rules:
+    - labels:
+        - area/ui
+      expressions:
+        - 'title.startsWith("ui")'
+      notify:
+        - user_ui
+    - labels:
+        - area/test
+      expressions:
+        - 'body.startsWith("test")'
+      notify:
+        - user_test
+    - labels:
+        - area/foo
+      patterns:
+        anywhere:
+          - 'foo\d{3}'
+      notify:
+        - user_foo

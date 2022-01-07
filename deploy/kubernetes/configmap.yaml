@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: apicurio-bot-config
+  labels:
+    app.kubernetes.io/name: apicurio-bot
+data:
+  GOOGLE_CHAT_WEBHOOK_URL: ""
+  GITHUB_APP_WEBHOOK_SECRET: ""
+  GITHUB_APP_PRIVATE_KEY: >-
+    -----BEGIN RSA PRIVATE KEY-----
+    -----END RSA PRIVATE KEY-----
