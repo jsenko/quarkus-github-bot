@@ -1,6 +1,10 @@
 package io.apicurio.bot.actions;
 
+import io.apicurio.bot.config.ApicurioBotConfigFile;
 import org.jboss.logging.Logger;
+import org.kohsuke.github.GHEventPayload;
+
+import java.io.IOException;
 
 class TriagePullRequest {
 
@@ -13,5 +17,7 @@ class TriagePullRequest {
      */
     private static final int LABEL_SIZE_LIMIT = 95;
 
+    public void triageOpenedPR(ApicurioBotConfigFile config, GHEventPayload.PullRequest payload) throws IOException {
 
+    }
 }

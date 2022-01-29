@@ -24,7 +24,7 @@ public class Issue {
     RemoveNeedsTriageLabelFromClosedIssue triageCleanup;
 
     void onIssueCreated(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                        @Opened GHEventPayload.Issue payload) {
+            @Opened GHEventPayload.Issue payload) {
         if (config == null) {
             LOG.debug("Unable to find '.github/{}' file for '{}'",
                     ApicurioBotConfigFile.NAME, payload.getRepository().getFullName());
@@ -43,7 +43,7 @@ public class Issue {
     }
 
     void onIssueClosed(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                       @Closed GHEventPayload.Issue payload) {
+            @Closed GHEventPayload.Issue payload) {
         if (config == null) {
             LOG.debug("Unable to find '.github/{}' file for '{}'",
                     ApicurioBotConfigFile.NAME, payload.getRepository().getFullName());

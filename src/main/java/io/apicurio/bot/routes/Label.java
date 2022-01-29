@@ -1,9 +1,10 @@
 package io.apicurio.bot.routes;
 
-import io.quarkiverse.githubapp.ConfigFile;
-import io.quarkiverse.githubapp.event.Label.Created;
 import io.apicurio.bot.actions.SetLabelColor;
 import io.apicurio.bot.config.ApicurioBotConfigFile;
+import io.quarkiverse.githubapp.ConfigFile;
+import io.quarkiverse.githubapp.event.Label.Created;
+import io.quarkiverse.githubapp.event.Label.Edited;
 import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,8 @@ public class Label {
     @Inject
     SetLabelColor setAreaLabelColor;
 
-    void onLabelCreated(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-            @Created GHEventPayload.Label payload) {
+    void onLabelCreatedEdited(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
+                              @Created @Edited GHEventPayload.Label payload) {
         if (config == null) {
             LOG.debug("Unable to find '.github/{}' file for '{}'",
                     ApicurioBotConfigFile.NAME, payload.getRepository().getFullName());

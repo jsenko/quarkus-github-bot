@@ -1,14 +1,14 @@
 package io.apicurio.bot.actions;
 
+import io.apicurio.bot.config.ApicurioBotConfigFile;
+import io.apicurio.bot.config.ApicurioBotConfigFile.TriageRule;
+import io.apicurio.bot.config.ApicurioBotProperties;
 import io.apicurio.bot.util.Collections;
 import io.apicurio.bot.util.Expressions;
 import io.apicurio.bot.util.GHIssues;
 import io.apicurio.bot.util.Labels;
 import io.apicurio.bot.util.Patterns;
 import io.apicurio.bot.util.Templates;
-import io.apicurio.bot.config.ApicurioBotProperties;
-import io.apicurio.bot.config.ApicurioBotConfigFile;
-import io.apicurio.bot.config.ApicurioBotConfigFile.TriageRule;
 import org.kohsuke.github.GHEventPayload;
 import org.kohsuke.github.GHIssue;
 import org.slf4j.Logger;
@@ -16,10 +16,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -39,8 +39,8 @@ public class TriageIssue {
     public void triageOpenedIssue(ApicurioBotConfigFile config, GHEventPayload.Issue payload) throws IOException {
 
         GHIssue issue = payload.getIssue();
-        Set<String> labels = new TreeSet<>();
-        Set<String> mentions = new TreeSet<>();
+        Set<String> labels = new HashSet<>();
+        Set<String> mentions = new HashSet<>();
 
         List<TriageRule> rules = config.triage.rules;
         for (int i = 0, rulesSize = rules.size(); i < rulesSize; i++) {
@@ -103,10 +103,10 @@ public class TriageIssue {
         // Patterns
         if (rule.patterns != null) {
 
-            Set<String> anywhere = new TreeSet<>(rule.patterns.anywhere);
-            Set<String> title = new TreeSet<>(rule.patterns.title);
+            Set<String> anywhere = new HashSet<>(rule.patterns.anywhere);
+            Set<String> title = new HashSet<>(rule.patterns.title);
             title.addAll(anywhere);
-            Set<String> body = new TreeSet<>(anywhere); // TODO
+            Set<String> body = new HashSet<>(anywhere); // TODO
 
             for (String pattern : title) {
                 if (Patterns.find(pattern, issue.getTitle())) {
