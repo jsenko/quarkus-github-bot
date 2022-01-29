@@ -1,4 +1,4 @@
-package io.quarkus.bot.util;
+package io.apicurio.bot.util;
 
 import io.quarkus.qute.Engine;
 import io.quarkus.qute.ValueResolver;

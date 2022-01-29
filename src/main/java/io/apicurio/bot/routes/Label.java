@@ -1,9 +1,9 @@
-package io.quarkus.bot.routes;
+package io.apicurio.bot.routes;
 
 import io.quarkiverse.githubapp.ConfigFile;
 import io.quarkiverse.githubapp.event.Label.Created;
-import io.quarkus.bot.actions.SetLabelColor;
-import io.quarkus.bot.config.ApicurioBotConfigFile;
+import io.apicurio.bot.actions.SetLabelColor;
+import io.apicurio.bot.config.ApicurioBotConfigFile;
 import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

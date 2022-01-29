@@ -1,13 +1,14 @@
-package io.quarkus.bot.actions;
+package io.apicurio.bot.actions;
 
-import io.quarkus.bot.config.ApicurioBotProperties;
-import io.quarkus.bot.config.ApicurioBotConfigFile;
-import io.quarkus.bot.config.ApicurioBotConfigFile.TriageRule;
-import io.quarkus.bot.util.Expressions;
-import io.quarkus.bot.util.GHIssues;
-import io.quarkus.bot.util.Labels;
-import io.quarkus.bot.util.Patterns;
-import io.quarkus.bot.util.Templates;
+import io.apicurio.bot.util.Collections;
+import io.apicurio.bot.util.Expressions;
+import io.apicurio.bot.util.GHIssues;
+import io.apicurio.bot.util.Labels;
+import io.apicurio.bot.util.Patterns;
+import io.apicurio.bot.util.Templates;
+import io.apicurio.bot.config.ApicurioBotProperties;
+import io.apicurio.bot.config.ApicurioBotConfigFile;
+import io.apicurio.bot.config.ApicurioBotConfigFile.TriageRule;
 import org.kohsuke.github.GHEventPayload;
 import org.kohsuke.github.GHIssue;
 import org.slf4j.Logger;
@@ -22,8 +23,6 @@ import java.util.TreeSet;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static io.quarkus.bot.util.Collections.randomPick;
-
 @ApplicationScoped
 public class TriageIssue {
 
@@ -32,7 +31,7 @@ public class TriageIssue {
     //private static final int LABEL_SIZE_LIMIT = 95;
 
     @Inject
-    ApicurioBotProperties quarkusBotConfig;
+    ApicurioBotProperties properties;
 
     @Inject
     Expressions expressionEval;
@@ -64,7 +63,7 @@ public class TriageIssue {
          */
         if (mentions.isEmpty() && !hasAreaOrTriageLabels(labels) && !GHIssues.hasAreaLabel(issue)) { // TODO fix last two
             if (!config.triage.defaultNotify.contains(issue.getUser().getLogin())) {
-                var reviewer = randomPick(config.triage.defaultNotify);
+                var reviewer = Collections.randomPick(config.triage.defaultNotify);
                 reviewer.ifPresent(mentions::add);
             }
             labels.add(config.triage.needsTriageLabel);
@@ -73,7 +72,7 @@ public class TriageIssue {
         // Comment
         if (!mentions.isEmpty()) {
             var comment = Templates.triageIssueWelcome(mentions).render();
-            if (!quarkusBotConfig.isDryRun()) {
+            if (!properties.isDryRun()) {
                 issue.comment(comment);
             } else {
                 LOG.info("Issue #{} - Add comment: {}", issue.getNumber(), comment);
@@ -82,7 +81,7 @@ public class TriageIssue {
 
         // Add labels
         if (!labels.isEmpty()) {
-            if (!quarkusBotConfig.isDryRun()) {
+            if (!properties.isDryRun()) {
                 issue.addLabels(labels.toArray(new String[0]));
             } else {
                 LOG.info("Issue #{} - Add labels: {}", issue.getNumber(), String.join(", ", labels));

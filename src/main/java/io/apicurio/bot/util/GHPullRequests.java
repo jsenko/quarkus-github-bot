@@ -1,4 +1,4 @@
-package io.quarkus.bot.util;
+package io.apicurio.bot.util;
 
 import org.kohsuke.github.GHLabel;
 import org.kohsuke.github.GHPullRequest;

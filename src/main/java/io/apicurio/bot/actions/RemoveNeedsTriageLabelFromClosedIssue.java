@@ -1,7 +1,7 @@
-package io.quarkus.bot.actions;
+package io.apicurio.bot.actions;
 
-import io.quarkus.bot.config.ApicurioBotProperties;
-import io.quarkus.bot.config.ApicurioBotConfigFile;
+import io.apicurio.bot.config.ApicurioBotProperties;
+import io.apicurio.bot.config.ApicurioBotConfigFile;
 import org.jboss.logging.Logger;
 import org.kohsuke.github.GHEventPayload;
 import org.kohsuke.github.GHIssue;
@@ -17,13 +17,13 @@ public class RemoveNeedsTriageLabelFromClosedIssue {
     private static final Logger LOG = Logger.getLogger(RemoveNeedsTriageLabelFromClosedIssue.class);
 
     @Inject
-    ApicurioBotProperties quarkusBotConfig;
+    ApicurioBotProperties properties;
 
     public void handle(ApicurioBotConfigFile config, GHEventPayload.Issue issuePayload) throws IOException {
         GHIssue issue = issuePayload.getIssue();
         for (GHLabel label : issue.getLabels()) {
             if (label.getName().equals(config.triage.needsTriageLabel)) {
-                if (!quarkusBotConfig.isDryRun()) {
+                if (!properties.isDryRun()) {
                     issue.removeLabels(config.triage.needsTriageLabel);
                 } else {
                     LOG.info("Issue #" + issue.getNumber() + " - Remove label: " + config.triage.needsTriageLabel);

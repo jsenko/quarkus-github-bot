@@ -1,10 +1,10 @@
-package io.quarkus.bot.routes;
+package io.apicurio.bot.routes;
 
+import io.apicurio.bot.actions.TriageIssue;
 import io.quarkiverse.githubapp.ConfigFile;
 import io.quarkiverse.githubapp.event.Issue.Closed;
-import io.quarkus.bot.actions.RemoveNeedsTriageLabelFromClosedIssue;
-import io.quarkus.bot.actions.TriageIssue;
-import io.quarkus.bot.config.ApicurioBotConfigFile;
+import io.apicurio.bot.actions.RemoveNeedsTriageLabelFromClosedIssue;
+import io.apicurio.bot.config.ApicurioBotConfigFile;
 import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

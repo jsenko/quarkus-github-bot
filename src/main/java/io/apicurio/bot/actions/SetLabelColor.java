@@ -1,8 +1,8 @@
-package io.quarkus.bot.actions;
+package io.apicurio.bot.actions;
 
-import io.quarkus.bot.config.ApicurioBotProperties;
-import io.quarkus.bot.config.ApicurioBotConfigFile;
-import io.quarkus.bot.util.Labels;
+import io.apicurio.bot.util.Labels;
+import io.apicurio.bot.config.ApicurioBotProperties;
+import io.apicurio.bot.config.ApicurioBotConfigFile;
 import org.kohsuke.github.GHEventPayload;
 import org.kohsuke.github.GHLabel;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class SetLabelColor {
     private static final Logger LOG = LoggerFactory.getLogger(SetLabelColor.class);
 
     @Inject
-    ApicurioBotProperties apicurioBotConfig;
+    ApicurioBotProperties properties;
 
     public void handle(ApicurioBotConfigFile config, GHEventPayload.Label labelPayload) throws IOException {
         GHLabel label = labelPayload.getLabel();
@@ -36,7 +36,7 @@ public class SetLabelColor {
         }
 
         if (targetColor != null) {
-            if (!apicurioBotConfig.isDryRun()) {
+            if (!properties.isDryRun()) {
                 label.set().color(targetColor);
             } else {
                 LOG.info("Label {} - Set color: {}", label.getName(), targetColor);

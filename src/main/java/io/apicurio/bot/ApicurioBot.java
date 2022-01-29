@@ -1,11 +1,11 @@
-package io.quarkus.bot;
+package io.apicurio.bot;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 
-import io.quarkus.bot.config.ApicurioBotProperties;
+import io.apicurio.bot.config.ApicurioBotProperties;
 import io.quarkus.runtime.StartupEvent;
 
 public class ApicurioBot {
@@ -13,10 +13,10 @@ public class ApicurioBot {
     private static final Logger LOG = Logger.getLogger(ApicurioBot.class);
 
     @Inject
-    ApicurioBotProperties quarkusBotConfig;
+    ApicurioBotProperties properties;
 
     void init(@Observes StartupEvent startupEvent) {
-        if (quarkusBotConfig.isDryRun()) {
+        if (properties.isDryRun()) {
             LOG.warn("Apicurio Bot running in dry-run mode");
         }
     }

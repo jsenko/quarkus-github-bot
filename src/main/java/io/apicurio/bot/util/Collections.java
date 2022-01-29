@@ -1,4 +1,4 @@
-package io.quarkus.bot.util;
+package io.apicurio.bot.util;
 
 import java.util.Collection;
 import java.util.Optional;

@@ -1,6 +1,6 @@
-package io.quarkus.bot.util;
+package io.apicurio.bot.util;
 
-import static io.quarkus.bot.util.Validation.notBlank;
+import static io.apicurio.bot.util.Validation.notBlank;
 
 public final class Matcher {
 

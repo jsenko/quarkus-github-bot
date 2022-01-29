@@ -1,4 +1,4 @@
-package io.quarkus.bot.util;
+package io.apicurio.bot.util;
 
 import java.util.Arrays;
 import java.util.function.Predicate;

@@ -1,4 +1,4 @@
-package io.quarkus.bot.config;
+package io.apicurio.bot.config;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 

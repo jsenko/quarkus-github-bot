@@ -1,5 +1,6 @@
-package io.quarkus.bot.util;
+package io.apicurio.bot.util;
 
+import io.apicurio.bot.util.Expressions;
 import io.quarkus.qute.TemplateException;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
