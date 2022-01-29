@@ -1,8 +1,8 @@
 package io.apicurio.bot.actions;
 
-import io.apicurio.bot.util.Labels;
-import io.apicurio.bot.config.ApicurioBotProperties;
 import io.apicurio.bot.config.ApicurioBotConfigFile;
+import io.apicurio.bot.config.ApicurioBotProperties;
+import io.apicurio.bot.util.Labels;
 import org.kohsuke.github.GHEventPayload;
 import org.kohsuke.github.GHLabel;
 import org.slf4j.Logger;
@@ -25,12 +25,13 @@ public class SetLabelColor {
         GHLabel label = labelPayload.getLabel();
         String targetColor = null;
 
-        if (label.getName().startsWith(Labels.AREA_PREFIX)
+        var areaLabels = Labels.getAreaLabels(config);
+        if (areaLabels.contains(label.getName())
                 && !config.labels.areaLabelColor.equals(label.getColor().toLowerCase(Locale.ROOT))) {
             targetColor = config.labels.areaLabelColor;
         }
 
-        if (label.getName().startsWith(Labels.TRIAGE_PREFIX)
+        if (config.triage.needsTriageLabel.equals(label.getName())
                 && !config.labels.triageLabelColor.equals(label.getColor().toLowerCase(Locale.ROOT))) {
             targetColor = config.labels.triageLabelColor;
         }

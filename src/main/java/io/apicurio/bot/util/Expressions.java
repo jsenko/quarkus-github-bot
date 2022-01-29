@@ -25,12 +25,14 @@ public class Expressions {
                 .addValueResolver(ValueResolver.builder()
                         .appliesTo(ctx -> ctx.getBase() instanceof String && ctx.getName().equals("matches"))
                         .resolveSync(
+                                // e.g. title.matches("foo.*")
                                 ctx -> Matcher.matches((String) ctx.getParams().get(0).getLiteral(), (String) ctx.getBase()))
                         .build())
                 .addValueResolver(ValueResolver.builder()
                         .appliesTo(ctx -> ctx.getBase() instanceof String && ctx.getName().equals("startsWith"))
                         .resolveSync(
-                                ctx -> Matcher.matches((String) ctx.getParams().get(0).getLiteral(), (String) ctx.getBase()))
+                                // e.g. title.startsWith("foo")
+                                ctx -> ((String) ctx.getBase()).startsWith((String) ctx.getParams().get(0).getLiteral()))
                         .build())
                 .build();
     }

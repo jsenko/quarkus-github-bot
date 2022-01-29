@@ -18,16 +18,12 @@ public class Label {
     @Inject
     SetLabelColor setAreaLabelColor;
 
+    @Inject
+    Validate validate;
+
     void onLabelCreatedEdited(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
                               @Created @Edited GHEventPayload.Label payload) {
-        if (config == null) {
-            LOG.debug("Unable to find '.github/{}' file for '{}'",
-                    ApicurioBotConfigFile.NAME, payload.getRepository().getFullName());
-            return;
-        }
-        if (!config.valid()) {
-            LOG.debug("Configuration file for '{}' is not valid",
-                    payload.getRepository().getFullName());
+        if (!validate.validate(config, payload)) {
             return;
         }
         try {

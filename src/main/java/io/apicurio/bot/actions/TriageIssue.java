@@ -4,22 +4,20 @@ import io.apicurio.bot.config.ApicurioBotConfigFile;
 import io.apicurio.bot.config.ApicurioBotConfigFile.TriageRule;
 import io.apicurio.bot.config.ApicurioBotProperties;
 import io.apicurio.bot.util.Collections;
-import io.apicurio.bot.util.Expressions;
-import io.apicurio.bot.util.GHIssues;
 import io.apicurio.bot.util.Labels;
-import io.apicurio.bot.util.Patterns;
 import io.apicurio.bot.util.Templates;
+import io.apicurio.bot.util.TriageRules;
 import org.kohsuke.github.GHEventPayload;
 import org.kohsuke.github.GHIssue;
+import org.kohsuke.github.GHLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -28,13 +26,11 @@ public class TriageIssue {
 
     private static final Logger LOG = LoggerFactory.getLogger(TriageIssue.class);
 
-    //private static final int LABEL_SIZE_LIMIT = 95;
-
     @Inject
     ApicurioBotProperties properties;
 
     @Inject
-    Expressions expressionEval;
+    TriageRules triageMatcher;
 
     public void triageOpenedIssue(ApicurioBotConfigFile config, GHEventPayload.Issue payload) throws IOException {
 
@@ -57,12 +53,12 @@ public class TriageIssue {
         }
 
         /*
-         * Needs triage if there are no relevant mentions from the rules,
-         * and there are no new or existing area labels.
-         * Do we want to notify somebody else even when the originator of the issue is among default reviewers?
+         * Needs triage if there are no new or existing area labels.
          */
-        if (mentions.isEmpty() && !hasAreaOrTriageLabels(labels) && !GHIssues.hasAreaLabel(issue)) { // TODO fix last two
-            if (!config.triage.defaultNotify.contains(issue.getUser().getLogin())) {
+        if (!Labels.containsAreaLabels(config, labels) &&
+                !Labels.containsAreaLabels(config, issue.getLabels().stream().map(GHLabel::getName).collect(Collectors.toSet()))) {
+            // But if there's somebody in the mentions already, they should do the triage
+            if (mentions.isEmpty() && !config.triage.defaultNotify.contains(issue.getUser().getLogin())) {
                 var reviewer = Collections.randomPick(config.triage.defaultNotify);
                 reviewer.ifPresent(mentions::add);
             }
@@ -89,55 +85,9 @@ public class TriageIssue {
         }
     }
 
-    private boolean hasAreaOrTriageLabels(Set<String> labels) {
-        for (String label : labels) {
-            if (label.startsWith(Labels.AREA_PREFIX) || label.startsWith(Labels.TRIAGE_PREFIX)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private boolean matchRule(GHIssue issue, TriageRule rule) {
+        return triageMatcher.matchRuleByPatterns(issue, rule) ||
+                triageMatcher.matchRuleByExpressions(issue, rule);
 
-        // Patterns
-        if (rule.patterns != null) {
-
-            Set<String> anywhere = new HashSet<>(rule.patterns.anywhere);
-            Set<String> title = new HashSet<>(rule.patterns.title);
-            title.addAll(anywhere);
-            Set<String> body = new HashSet<>(anywhere); // TODO
-
-            for (String pattern : title) {
-                if (Patterns.find(pattern, issue.getTitle())) {
-                    return true;
-                }
-            }
-
-            for (String pattern : body) {
-                if (Patterns.find(pattern, issue.getBody())) {
-                    return true;
-                }
-            }
-        }
-
-        // Expressions
-        if (rule.expressions != null) {
-            for (String expression : rule.expressions) {
-                try {
-
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("title", issue.getTitle());
-                    data.put("body", issue.getBody());
-                    return expressionEval.evaluateBoolean(expression, data);
-                } catch (Exception ex) {
-                    LOG.error("Error evaluating expression '" + expression + "'", ex);
-                }
-            }
-
-            return false;
-        }
-
-        return false;
     }
 }

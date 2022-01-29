@@ -1,16 +1,16 @@
 package io.apicurio.bot;
 
+import io.apicurio.bot.config.ApicurioBotProperties;
+import io.quarkus.runtime.StartupEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.jboss.logging.Logger;
-
-import io.apicurio.bot.config.ApicurioBotProperties;
-import io.quarkus.runtime.StartupEvent;
-
 public class ApicurioBot {
 
-    private static final Logger LOG = Logger.getLogger(ApicurioBot.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApicurioBot.class);
 
     @Inject
     ApicurioBotProperties properties;

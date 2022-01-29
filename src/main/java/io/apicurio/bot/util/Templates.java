@@ -10,6 +10,8 @@ public final class Templates {
 
     public static native TemplateInstance triageIssueWelcome(Set<String> reviewers);
 
+    public static native TemplateInstance triagePRWelcome(Set<String> reviewers);
+
     private Templates() {
     }
 }
