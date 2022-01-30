@@ -29,7 +29,7 @@ public class Issue {
     Validate validate;
 
     void onIssueCreated(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                        @Opened GHEventPayload.Issue payload) {
+            @Opened GHEventPayload.Issue payload) {
         if (!validate.validate(config, payload)) {
             return;
         }
@@ -41,7 +41,7 @@ public class Issue {
     }
 
     void onIssueEdited(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                       @Edited @Labeled GHEventPayload.Issue payload) {
+            @Edited @Labeled GHEventPayload.Issue payload) {
         if (!validate.validate(config, payload)) {
             return;
         }
@@ -53,7 +53,7 @@ public class Issue {
     }
 
     void onIssueClosed(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                       @Closed GHEventPayload.Issue payload) {
+            @Closed GHEventPayload.Issue payload) {
         if (!validate.validate(config, payload)) {
             return;
         }

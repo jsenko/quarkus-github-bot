@@ -37,3 +37,6 @@ release.properties
 
 # Environment
 .env
+
+# Other
+.notes

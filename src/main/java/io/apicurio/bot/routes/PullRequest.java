@@ -7,13 +7,12 @@ import io.quarkiverse.githubapp.ConfigFile;
 import io.quarkiverse.githubapp.event.PullRequest.Closed;
 import io.quarkiverse.githubapp.event.PullRequest.Edited;
 import io.quarkiverse.githubapp.event.PullRequest.Labeled;
+import io.quarkiverse.githubapp.event.PullRequest.Opened;
 import org.kohsuke.github.GHEventPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-
-import static io.quarkiverse.githubapp.event.Issue.Opened;
 
 public class PullRequest {
 
@@ -29,7 +28,7 @@ public class PullRequest {
     Validate validate;
 
     void onPRCreated(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                     @Opened GHEventPayload.PullRequest payload) {
+            @Opened GHEventPayload.PullRequest payload) {
         if (!validate.validate(config, payload)) {
             return;
         }
@@ -41,7 +40,7 @@ public class PullRequest {
     }
 
     void onPREdited(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                    @Edited @Labeled GHEventPayload.PullRequest payload) {
+            @Edited @Labeled GHEventPayload.PullRequest payload) {
         if (!validate.validate(config, payload)) {
             return;
         }
@@ -53,7 +52,7 @@ public class PullRequest {
     }
 
     void onPRClosed(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                    @Closed GHEventPayload.PullRequest payload) {
+            @Closed GHEventPayload.PullRequest payload) {
         if (!validate.validate(config, payload)) {
             return;
         }

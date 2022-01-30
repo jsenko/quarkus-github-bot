@@ -1,0 +1,76 @@
+{
+  "cards": [
+    {#if !issues.isEmpty}
+    {
+      "header": {
+        "title": "Issues that need triage or review"
+      },
+      "sections": [
+        {#for issue in issues}
+        {
+          "widgets": [
+            {
+              "keyValue": {
+                "content": "{issue.title}",
+                "button": {
+                  "textButton": {
+                    "text": "OPEN",
+                    "onClick": {
+                      "openLink": {
+                        "url": "{issue.url}"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "keyValue": {
+                "topLabel": "Mentions",
+                "content": "@{#for m in issue.mentions}{m}{#if hasNext}, @{/if}{/for}"
+              }
+            }
+          ]
+        }{#if hasNext},{/if}
+        {/for}
+      ]
+    }{#if !prs.isEmpty},{/if}
+    {/if}
+    {#if !prs.isEmpty}
+    {
+      "header": {
+        "title": "Pull requests that need triage or review"
+      },
+      "sections": [
+        {#for pr in prs}
+        {
+          "widgets": [
+            {
+              "keyValue": {
+                "content": "{pr.title}",
+                "button": {
+                  "textButton": {
+                    "text": "OPEN",
+                    "onClick": {
+                      "openLink": {
+                        "url": "{pr.url}"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "keyValue": {
+                "topLabel": "Mentions",
+                "content": "@{#for m in pr.mentions}{m}{#if hasNext}, @{/if}{/for}"
+              }
+            }
+          ]
+        }
+        {/for}
+      ]
+    }
+    {/if}
+  ]
+}

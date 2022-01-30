@@ -22,7 +22,7 @@ public class Label {
     Validate validate;
 
     void onLabelCreatedEdited(@ConfigFile(ApicurioBotConfigFile.NAME) ApicurioBotConfigFile config,
-                              @Created @Edited GHEventPayload.Label payload) {
+            @Created @Edited GHEventPayload.Label payload) {
         if (!validate.validate(config, payload)) {
             return;
         }

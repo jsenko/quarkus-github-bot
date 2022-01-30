@@ -1,5 +1,7 @@
 package io.apicurio.bot.actions;
 
+import io.apicurio.bot.cache.NotificationCache;
+import io.apicurio.bot.cache.PullRequestNotification;
 import io.apicurio.bot.config.ApicurioBotConfigFile;
 import io.apicurio.bot.config.ApicurioBotProperties;
 import io.apicurio.bot.util.Collections;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +34,9 @@ public class TriagePullRequest {
     @Inject
     ApicurioBotProperties properties;
 
+    @Inject
+    NotificationCache ncache;
+
     public void triageOpenedPR(ApicurioBotConfigFile config, GHEventPayload.PullRequest payload) throws IOException {
 
         // TODO Fix duplicated code, since PullRequest is a subclass of Issue
@@ -39,6 +45,7 @@ public class TriagePullRequest {
         GHPullRequest pr = payload.getPullRequest();
         Set<String> labels = new HashSet<>();
         Set<String> mentions = new HashSet<>();
+        boolean isTriage = false;
 
         List<ApicurioBotConfigFile.TriageRule> rules = config.triage.rules;
         for (int i = 0, rulesSize = rules.size(); i < rulesSize; i++) {
@@ -65,11 +72,18 @@ public class TriagePullRequest {
                 reviewer.ifPresent(mentions::add);
             }
             labels.add(config.triage.needsTriageLabel);
+            isTriage = true;
         }
 
         // Comment
         if (!mentions.isEmpty()) {
             var comment = Templates.triagePRWelcome(mentions).render();
+            ncache.getPullRequests().add(PullRequestNotification.builder()
+                    .title(pr.getTitle())
+                    .isTriage(isTriage)
+                    .url(pr.getUrl().toString())
+                    .mentions(new ArrayList<>(mentions))
+                    .build());
             if (!properties.isDryRun()) {
                 pr.comment(comment);
             } else {
