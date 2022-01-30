@@ -17,6 +17,10 @@ public class ApicurioBotProperties {
     @Getter
     List<String> allowedOrganizations;
 
+    @ConfigProperty(name = "apicurio-bot.google-chat-webhook-url")
+    @Getter
+    Optional<String> googleChatWebhookUrl;
+
     public boolean isDryRun() {
         return dryRun.orElse(false);
     }
