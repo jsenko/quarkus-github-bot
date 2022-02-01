@@ -15,7 +15,7 @@ public class NotificationCache {
     private final ConcurrentHashSet<PullRequestNotification> pullRequests = new ConcurrentHashSet<>();
 
     public boolean isEmpty() {
-        return issues.isEmpty() || pullRequests.isEmpty();
+        return issues.isEmpty() && pullRequests.isEmpty();
     }
 
     public void clear() {

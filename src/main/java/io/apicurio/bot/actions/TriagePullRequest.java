@@ -40,7 +40,7 @@ public class TriagePullRequest {
     public void triageOpenedPR(ApicurioBotConfigFile config, GHEventPayload.PullRequest payload) throws IOException {
 
         // TODO Fix duplicated code, since PullRequest is a subclass of Issue
-        // The main difference is that for PRs, directories are also matched, and there is a different comment message
+        // The main difference is that for PRs, files are also matched, and there is a different comment message
 
         GHPullRequest pr = payload.getPullRequest();
         Set<String> labels = new HashSet<>();
@@ -104,6 +104,6 @@ public class TriagePullRequest {
     private boolean matchRule(GHPullRequest pr, ApicurioBotConfigFile.TriageRule rule) {
         return triageMatcher.matchRuleByPatterns(pr, rule) ||
                 triageMatcher.matchRuleByExpressions(pr, rule) ||
-                triageMatcher.matchRuleByDirectories(pr, rule);
+                triageMatcher.matchRuleByFiles(pr, rule);
     }
 }

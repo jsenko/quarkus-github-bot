@@ -68,16 +68,16 @@ public class TriageRules {
         return false;
     }
 
-    public boolean matchRuleByDirectories(GHPullRequest pr, ApicurioBotConfigFile.TriageRule rule) {
-        if (rule.patterns != null && rule.patterns.directories != null) {
+    public boolean matchRuleByFiles(GHPullRequest pr, ApicurioBotConfigFile.TriageRule rule) {
+        if (rule.patterns != null && rule.patterns.files != null) {
 
-            Set<String> directories = new HashSet<>(rule.patterns.directories);
-            directories.addAll(rule.patterns.anywhere);
+            Set<String> files = new HashSet<>(rule.patterns.files);
+            files.addAll(rule.patterns.anywhere);
 
             for (GHPullRequestFileDetail file : pr.listFiles()) {
                 var a = file.getPreviousFilename();
                 var b = file.getFilename();
-                for (String directory : directories) {
+                for (String directory : files) {
                     if (Patterns.find(directory, a)) {
                         return true;
                     }

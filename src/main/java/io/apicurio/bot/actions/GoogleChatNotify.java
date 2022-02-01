@@ -34,13 +34,12 @@ public class GoogleChatNotify {
     }
 
     // At 07:00:00am, on every Monday, Tuesday, Wednesday, Thursday and Friday, every month
-    // TODO Timezone?
     @Scheduled(cron = "0 0 7 ? * MON,TUE,WED,THU,FRI *")
+    // @Scheduled(cron = "0 */1 * ? * *")
     void onSchedule() {
         try {
             if (properties.getGoogleChatWebhookUrl().isPresent() && !ncache.isEmpty()) {
                 var message = Templates.chatNotifyReview(ncache.getIssues(), ncache.getPullRequests()).render();
-
                 if (!properties.isDryRun()) {
                     var url = properties.getGoogleChatWebhookUrl().get();
                     try {
@@ -71,36 +70,3 @@ public class GoogleChatNotify {
         }
     }
 }
-
-/*
- * {
- * "cards": [
- * {
- * "header": {
- * "title": "List of new GitHub issues and pull requests that need triage or review",
- * },
- * "sections": [
- * {
- * "header": "Issues",
- * "widgets": [
- * {
- * "keyValue": {
- * "topLabel": "Issue Title",
- * "content": "12345"
- * }
- * },
- * {
- * "keyValue": {
- * "topLabel": "Status",
- * "content": "In Delivery"
- * }
- * }
- * ]
- * },
- * ]
- * }
- * ]
- * }
- *
- *
- */

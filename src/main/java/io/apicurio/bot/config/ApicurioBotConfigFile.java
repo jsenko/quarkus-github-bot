@@ -81,14 +81,14 @@ public class ApicurioBotConfigFile {
         public Set<String> body = new HashSet<>();
 
         @JsonDeserialize(as = HashSet.class)
-        public Set<String> directories = new HashSet<>();
+        public Set<String> files = new HashSet<>();
 
         public boolean valid() {
             return Validation.all(
                     anywhere.stream().allMatch(Validation::notBlank),
                     title.stream().allMatch(Validation::notBlank),
                     body.stream().allMatch(Validation::notBlank),
-                    directories.stream().allMatch(Validation::notBlank));
+                    files.stream().allMatch(Validation::notBlank));
         }
     }
 

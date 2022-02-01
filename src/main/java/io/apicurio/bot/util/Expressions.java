@@ -1,6 +1,7 @@
 package io.apicurio.bot.util;
 
 import io.quarkus.qute.Engine;
+import io.quarkus.qute.TemplateException;
 import io.quarkus.qute.ValueResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,10 +39,15 @@ public class Expressions {
     }
 
     public boolean evaluateBoolean(String expression, Map<String, Object> data) {
-        var t = "{#if " + expression + "}true{#else}false{/if}";
-        LOG.debug("Expresion template: {}", t);
-        String result = engine.parse(t).render(data);
-        LOG.warn("Expression result: {}", result);
-        return "true".equals(result);
+        try {
+            var t = "{#if " + expression + "}true{#else}false{/if}";
+            LOG.debug("Expresion template: {}", t);
+            String result = engine.parse(t).render(data);
+            LOG.warn("Expression result: {}", result);
+            return "true".equals(result);
+        } catch (TemplateException ex) {
+            LOG.error("Failed to parse template '{}' with data '{}'", ex);
+            return false;
+        }
     }
 }

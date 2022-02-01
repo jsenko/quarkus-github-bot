@@ -80,7 +80,7 @@ public class TriageIssue {
             ncache.getIssues().add(IssueNotification.builder()
                     .title(issue.getTitle())
                     .isTriage(isTriage)
-                    .url(issue.getUrl().toString())
+                    .url(issue.getHtmlUrl().toString())
                     .mentions(new ArrayList<>(mentions))
                     .build());
             if (!properties.isDryRun()) {
