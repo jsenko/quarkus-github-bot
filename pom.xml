@@ -7,7 +7,7 @@
   <version>0.1-SNAPSHOT</version>
   <properties>
     <build-reporting-maven-extension.version>1.0.5</build-reporting-maven-extension.version>
-    <compiler-plugin.version>3.8.1</compiler-plugin.version>
+    <compiler-plugin.version>3.9.0</compiler-plugin.version>
     <glob.version>0.9.0</glob.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.source>11</maven.compiler.source>
