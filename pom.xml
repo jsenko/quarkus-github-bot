@@ -18,7 +18,7 @@
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.version>2.4.0.Final</quarkus.version>
-    <slf4j.version>1.7.25</slf4j.version>
+    <slf4j.version>2.0.1</slf4j.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
     <version.formatter.plugin>2.16.0</version.formatter.plugin>
     <version.impsort.plugin>1.4.1</version.impsort.plugin>
